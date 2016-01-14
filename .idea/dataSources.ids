@@ -8,103 +8,105 @@
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
       <schema id="1" name="book_management"/>
-      <table id="2" parent="1" name="book_list"/>
-      <table id="3" parent="1" name="migrations"/>
+      <table id="2" parent="1" name="migrations"/>
+      <table id="3" parent="1" name="book_list"/>
       <table id="4" parent="1" name="password_resets"/>
       <table id="5" parent="1" name="users"/>
-      <column id="6" parent="2" name="id">
-        <mandatory>1</mandatory>
-        <data-type>int(10) unsigned</data-type>
-      </column>
-      <column id="7" parent="2" name="isbn">
-        <mandatory>1</mandatory>
-        <data-type>varchar(13)</data-type>
-      </column>
-      <column id="8" parent="2" name="title">
+      <column id="6" parent="2" name="migration">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="9" parent="2" name="author">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="10" parent="2" name="description">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="11" parent="2" name="created_at">
-        <mandatory>1</mandatory>
-        <data-type>timestamp</data-type>
-        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
-      </column>
-      <column id="12" parent="2" name="updated_at">
-        <mandatory>1</mandatory>
-        <data-type>timestamp</data-type>
-        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
-      </column>
-      <key id="13" parent="2" name="PRIMARY">
-        <columns>id</columns>
-        <primary>1</primary>
-      </key>
-      <column id="14" parent="3" name="migration">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="15" parent="3" name="batch">
+      <column id="7" parent="2" name="batch">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="16" parent="4" name="email">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="17" parent="4" name="token">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="18" parent="4" name="created_at">
-        <mandatory>1</mandatory>
-        <data-type>timestamp</data-type>
-        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
-      </column>
-      <column id="19" parent="5" name="id">
+      <column id="8" parent="3" name="id">
         <mandatory>1</mandatory>
         <data-type>int(10) unsigned</data-type>
       </column>
-      <column id="20" parent="5" name="username">
+      <column id="9" parent="3" name="isbn">
+        <mandatory>1</mandatory>
+        <data-type>varchar(13)</data-type>
+      </column>
+      <column id="10" parent="3" name="title">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="21" parent="5" name="email">
+      <column id="11" parent="3" name="author">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="22" parent="5" name="password">
-        <mandatory>1</mandatory>
-        <data-type>varchar(60)</data-type>
+      <column id="12" parent="3" name="description">
+        <data-type>longtext</data-type>
       </column>
-      <column id="23" parent="5" name="remember_token">
-        <data-type>varchar(100)</data-type>
+      <column id="13" parent="3" name="img_url">
+        <data-type>varchar(255)</data-type>
       </column>
-      <column id="24" parent="5" name="created_at">
+      <column id="14" parent="3" name="created_at">
         <mandatory>1</mandatory>
         <data-type>timestamp</data-type>
         <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
       </column>
-      <column id="25" parent="5" name="updated_at">
+      <column id="15" parent="3" name="updated_at">
         <mandatory>1</mandatory>
         <data-type>timestamp</data-type>
         <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
       </column>
-      <index id="26" parent="5" name="users_email_unique">
-        <columns>email</columns>
-        <unique>1</unique>
-      </index>
-      <key id="27" parent="5" name="PRIMARY">
+      <key id="16" parent="3" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="28" parent="5" name="users_email_unique">
+      <column id="17" parent="4" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="18" parent="4" name="token">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="19" parent="4" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
+      </column>
+      <column id="20" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="21" parent="5" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="22" parent="5" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="23" parent="5" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(60)</data-type>
+      </column>
+      <column id="24" parent="5" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="25" parent="5" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
+      </column>
+      <column id="26" parent="5" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <index id="27" parent="5" name="users_email_unique">
+        <columns>email</columns>
+        <unique>1</unique>
+      </index>
+      <key id="28" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="29" parent="5" name="users_email_unique">
         <columns>email</columns>
         <underlying-index>users_email_unique</underlying-index>
       </key>

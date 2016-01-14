@@ -1,7 +1,15 @@
 @extends('master')
 @section("content")
 	<h2 class="sub-header">Books</h2>
-	<div class="pull-right">{{ link_to_route('books.new', "Add new book", array(), ['class'=>"btn btn-primary btn-sm"])  }}</div>
+	@if(session('status'))
+		<div class="alert alert-success alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			{{ session('status')  }}
+		</div>
+	@endif
+	<div class="pull-xs-right">{{ link_to_route('books.new', "Add new book", array(), ['class'=>"btn btn-primary btn-sm"])  }}</div>
 	<div class="table-responsive">
 
 		@unless($books->count())

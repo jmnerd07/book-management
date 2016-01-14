@@ -17,7 +17,8 @@ class CreateBooksListTable extends Migration
             $table->string("isbn",13);
             $table->string("title");
             $table->string("author");
-            $table->string("description");
+            $table->longText("description")->nullable();
+            $table->string("img_url")->nullable();
             $table->timestamps();
         });
     }

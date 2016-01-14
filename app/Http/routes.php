@@ -17,10 +17,12 @@ Route::group(['prefix' => 'books'], function () {
 	]);
 	Route::get('/new', [
 		"as" => "books.new",
+			"middleware"=>"web",
 		"uses" => "BooksController@create"
 	]);
 	Route::post('/save_new', [
 		"as" => "books.save_new",
+			"middleware"=>"web",
 		"uses" => "BooksController@store"
 	]);
 });
