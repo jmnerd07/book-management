@@ -1,4 +1,4 @@
-@extends("master")
+@extends("master_management")
 
 @section("content")
 	<h2 class="sub-header">Books
@@ -33,15 +33,6 @@
 				{{ Form::text("isbn", $book->isbn, ['class'=>'form-control'.( $errors->has('submitted') ? ($errors->has('isbn') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-isbn', 'type'=>'text', 'placeholder'=>'ISBN']) }}
 				@if($errors->has('isbn'))
 					<small class="text-danger">{{ $errors->first('isbn')  }}</small>
-				@endif
-			</div>
-		</div>
-		<div class="form-group row {{ ( $errors->has('submitted') ? ( $errors->first('img_url') ? 'has-danger' : 'has-success') : '' )  }}">
-			{{ Form::label("book-img", "Book Image", ['class'=> 'col-sm-2 form-control-label']) }}
-			<div class="col-sm-10">
-				{{ Form::file("img_url", ['class'=>'form-control form-control-file '.( $errors->has('submitted') ? ( $errors->first('img_url') ? 'form-control-success' : '') : '' ),'id'=>'book-image', 'type'=>'file', 'placeholder'=>'Select image']) }}
-				@if($errors->has('img_url'))
-					<div><small class="text-danger">{{ $errors->first('img_url')  }}</small></div>
 				@endif
 			</div>
 		</div>

@@ -9,7 +9,7 @@
 <body>
 
 <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
-	<a class="navbar-brand" href="#">BooksSystem</a>
+	<a class="navbar-brand" href="#">Books System</a>
 
 	<div class="nav navbar-nav pull-xs-right">
 		<a class="nav-item nav-link" href="#">My Profile</a>
@@ -22,14 +22,9 @@
 	<div class="row">
 		<div class="col-sm-1 col-md-1 sidebar">
 			<ul class="nav nav-pills nav-stacked">
-				<li class="nav-item">
-					<a class="nav-link" href="#">Dashboard</a>
-				</li>
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Books</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Reports</a>
+					<a class="nav-link" href="{{ route('books.home') }}">Books</a>
+					<a class="nav-link" href="{{ route('genres.home') }}">Genres</a>
 				</li>
 			</ul>
 		</div>

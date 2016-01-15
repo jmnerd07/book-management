@@ -1,4 +1,4 @@
-@extends('master')
+@extends('master_management')
 @section("content")
 	<h2 class="sub-header">Books</h2>
 	@if(session('status'))
@@ -14,28 +14,28 @@
 
 		@unless($books->count())
 			<p class="text-danger">No books found.</p>
-			@else
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead class="thead-inverse">
+		@else
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead class="thead-inverse">
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Description</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach($books as $book)
 						<tr>
-							<th>Title</th>
-							<th>Author</th>
-							<th>Description</th>
+							<td>{{ $book->title }}</td>
+							<td>{{ $book->author }}</td>
+							<td>{{ $book->description }}</td>
 						</tr>
-						</thead>
-						<tbody>
-						@foreach($books as $book)
-							<tr>
-								<td>{{ $book->title }}</td>
-								<td>{{ $book->author }}</td>
-								<td>{{ $book->description }}</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</div>
-				@endunless
+					@endforeach
+					</tbody>
+				</table>
+			</div>
+		@endunless
 
 	</div>
 @stop

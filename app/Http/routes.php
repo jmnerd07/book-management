@@ -10,23 +10,35 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['prefix' => 'books'], function () {
-	Route::get('/', [
-		"as" => "books.home",
-		"uses" => "BooksController@index"
-	]);
-	Route::get('/new', [
-		"as" => "books.new",
-			"middleware"=>"web",
-		"uses" => "BooksController@create"
-	]);
-	Route::post('/save_new', [
-		"as" => "books.save_new",
-			"middleware"=>"web",
-		"uses" => "BooksController@store"
-	]);
-});
+Route::group(['prefix'=>'management'], function() {
+	Route::group(['prefix' => 'books'], function () {
+		Route::get('/', [
+				"as" => "books.home",
+				"uses" => "BooksController@index"
+		]);
+		Route::get('/new', [
+				"as" => "books.new",
+				"middleware" => "web",
+				"uses" => "BooksController@create"
+		]);
+		Route::post('/save_new', [
+				"as" => "books.save_new",
+				"middleware" => "web",
+				"uses" => "BooksController@store"
+		]);
+	});
 
+	Route::group(['prefix'=>'genres'], function() {
+		Route::get('/', [
+			"as"=>"genres.home",
+			"uses"=> "GenresController@index"
+		]);
+	});
+});
+Route::any('/',[
+	"as"=>"catalog.index",
+	"uses"=>"CatalogController@index"
+]);
 
 /*
 |--------------------------------------------------------------------------
