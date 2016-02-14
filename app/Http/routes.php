@@ -14,6 +14,7 @@ Route::group(['prefix'=>'management'], function() {
 	Route::group(['prefix' => 'books'], function () {
 		Route::get('/', [
 				"as" => "books.home",
+				"middleware"=>"web",
 				"uses" => "BooksController@index"
 		]);
 		Route::get('/new', [
@@ -26,6 +27,16 @@ Route::group(['prefix'=>'management'], function() {
 				"middleware" => "web",
 				"uses" => "BooksController@store"
 		]);
+		Route::post('/update_save', [
+			'as' => 'books.update_save',
+			'middleware'=> 'web',
+			'uses'=>'BooksController@update'
+		]);
+		Route::get('/modify/{id?}', [
+				"as" => "books.edit",
+				"middleware"=> "web",
+				"uses" => "BooksController@edit"
+		]);
 	});
 
 	Route::group(['prefix'=>'genres'], function() {
@@ -33,6 +44,21 @@ Route::group(['prefix'=>'management'], function() {
 			"as"=>"genres.home",
 			"uses"=> "GenresController@index"
 		]);
+	});
+
+	Route::group(['prefix'=>'author'], function(){
+		Route::group(['prefix'=>'/async'], function() {
+			Route::get('/all',['as'=>'author.async.all', function(){
+				return \App\Models\Author::where('record_id', NULL)->get();
+			}]);
+		});
+	});
+	Route::group(['prefix'=>'publisher'], function(){
+		Route::group(['prefix'=>'/async'], function() {
+			Route::get('/all',['as'=>'publisher.async.all', function(){
+				return \App\Models\Publisher::where('record_id', NULL)->get();
+			}]);
+		});
 	});
 });
 Route::any('/',[

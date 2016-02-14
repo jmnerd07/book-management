@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": ";AAAA,UAAW,GACV,aAAa,EAAE,IAAI",
-"sources": ["../../resources/assets/sass/app.scss"],
+"mappings": ";AACC,wGAAc,GACb,QAAQ,EAAE,KAAK,EACf,OAAO,EAAC,CAAC,EACT,UAAU,EAAE,KAAK,EACjB,UAAU,EAAE,MAAM,EAClB,UAAU,EAAE,IAAI,EAChB,SAAS,EAAE,GAAG,EACd,SAAS,EAAE,IAAI,EACf,UAAU,EAAE,GAAG,EACf,UAAU,EAAE,oBAAoB;;AAQjC,iCAAsB,GACrB,OAAO,EAAE,QAAQ,EACjB,UAAU,EAAE,MAAM,EAClB,gBAAgB,EAAE,OAAO,EACzB,SAAS,EAAE,IAAI",
+"sources": ["../../resources/assets/sass/books/_books_form.partial.scss"],
 "names": [],
 "file": "styles.css"
 }

@@ -29,8 +29,8 @@ class BooksController extends Controller
 	public function create()
 	{
 		$book = new Books();
-
-		return view('books._books_form', compact('book'));
+		$action_route = 'books.save_new';
+		return view('books._books_form', compact('book', 'action_route'));
 	}
 
 	/**
@@ -44,6 +44,7 @@ class BooksController extends Controller
 		$result = Validator::make(Input::all(), [
 			'title' => 'required',
 			'author' => 'required',
+			'publisher'=>'required',
 			'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/"
 		],
 			[
@@ -52,7 +53,8 @@ class BooksController extends Controller
 				'isbn.required' => 'ISBN is required',
 				'isbn.max' => 'ISBN must be exactly 13 characters',
 				'isbn.min' => 'ISBN must be exactly 13 characters',
-				'isbn.regex'=>'ISBN must contain numbers only.'
+				'isbn.regex'=>'ISBN must contain numbers only.',
+				'publisher.required'=>'Publisher is required'
 			]
 		);
 		if($result->fails())
@@ -62,12 +64,12 @@ class BooksController extends Controller
 			return redirect()->route('books.new')->withErrors($result->errors())->withInput();
 		}
 
-		$new_book = new Books();
-		$new_book->title = $request->get("title");
-		$new_book->author = $request->get("author");
-		$new_book->isbn = $request->get("isbn");
-		$new_book->description = $request->get('desciprition');
-		$new_book->save();
+		$book = new Books();
+		$book->title = $request->get("title");
+		$book->author = $request->get("author");
+		$book->isbn = $request->get("isbn");
+		$book->description = $request->get('desciprition');
+		$book->save();
 		return redirect()->route('books.home')->with('status', "New book created");
 	}
 
@@ -79,7 +81,7 @@ class BooksController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+
 	}
 
 	/**
@@ -90,7 +92,8 @@ class BooksController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$book = Books::find($id);
+		return view('books._books_form', compact('book'))->with('action_route', 'books.update_save');
 	}
 
 	/**
@@ -100,9 +103,31 @@ class BooksController extends Controller
 	 * @param  int $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id)
+	public function update(Request $request)
 	{
-		//
+		$id = $request->get('id');
+		$book = Books::find($id);
+		$this->validate($request
+				,[
+				'title' => 'required',
+				'author' => 'required',
+				'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/"
+				]
+				,[
+						'title.required'=>'Book title is required',
+						'author.required' => 'Book author is required',
+						'isbn.required' => 'ISBN is required',
+						'isbn.max' => 'ISBN must be exactly 13 characters',
+						'isbn.min' => 'ISBN must be exactly 13 characters',
+						'isbn.regex'=>'ISBN must contain numbers only.'
+				]
+		);
+		$book->title = $request->get("title");
+		$book->author = $request->get("author");
+		$book->isbn = $request->get("isbn");
+		$book->description = $request->get('desciprition');
+		$book->save();
+		return redirect()->route('books.home')->with('status', "Update successful")->withInput();
 	}
 
 	/**

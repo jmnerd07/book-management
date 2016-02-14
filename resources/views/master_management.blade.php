@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-ng-app="BookManagementApp">
 <head>
 	<meta charset="UTF-8">
 	<title>Book Management System</title>
 	{{ Html::style('vendor/bootstrap/css/bootstrap.min.css') }}
 	{{ Html::style('vendor/bootstrap/css/dashboard.css') }}
+	{{ Html::style('css/styles.css') }}
 </head>
 <body>
 
@@ -37,5 +38,14 @@
 	</div>
 </div>
 
+{{ Html::script('vendor/tether-1.1.1/dist/js/tether.min.js') }}
+{{ Html::script('vendor/jquery/dist/jquery.min.js') }}
+{{ Html::script('vendor/bootstrap/js/bootstrap.min.js') }}
+{{ Html::script('vendor/react-0.14.6/JSXTransformer.js') }}
+{{ Html::script('vendor/react-0.14.6/build/react.js') }}
+{{ Html::script('vendor/react-0.14.6/build/react-dom.js') }}
+{{ Html::script('vendor/angularjs/angular.js') }}
+{{ Html::script('js/app.js') }}
+@yield('user_js');
 </body>
 </html>

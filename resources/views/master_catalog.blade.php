@@ -21,11 +21,14 @@
 					
 						<div class="col-lg-12">
 							<div class="input-group">
-								<input type="text" name="keyword" class="form-control" placeholder="Search for...">
+								<input type="text" name="keyword" value="" class="form-control" placeholder="Search for...">
 
 								<span class="input-group-btn">
 									<button type="submit" class="btn btn-secondary" type="button">Go!</button>
 								</span>
+								@if(session('result')):
+									<code>About {{ $books->count() }} result(s)</code>
+								@endif
 							</div>
 						</div>
 					</li>

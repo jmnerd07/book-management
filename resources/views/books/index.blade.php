@@ -1,7 +1,7 @@
 @extends('master_management')
 @section("content")
 	<h2 class="sub-header">Books</h2>
-	@if(session('status'))
+	@if(session("status"))
 		<div class="alert alert-success alert-dismissible fade in" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -10,7 +10,7 @@
 		</div>
 	@endif
 	<div class="pull-xs-right">{{ link_to_route('books.new', "Add new book", array(), ['class'=>"btn btn-primary btn-sm"])  }}</div>
-	<div class="table-responsive">
+	<div class="table-responsive" data-ng-controller="BooksController">
 
 		@unless($books->count())
 			<p class="text-danger">No books found.</p>
@@ -20,8 +20,7 @@
 					<thead class="thead-inverse">
 					<tr>
 						<th>Title</th>
-						<th>Author</th>
-						<th>Description</th>
+dfsdf						<th></th>
 					</tr>
 					</thead>
 					<tbody>
@@ -29,12 +28,20 @@
 						<tr>
 							<td>{{ $book->title }}</td>
 							<td>{{ $book->author }}</td>
-							<td>{{ $book->description }}</td>
+							<td>
+								{{ link_to_route("books.edit","Edit",[ 'id'=>$book->id], ['class'=>'btn btn-primary btn-sm']) }}
+							</td>
 						</tr>
 					@endforeach
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3"></td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
+
 		@endunless
 
 	</div>

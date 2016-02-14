@@ -1,51 +1,83 @@
 @extends("master_management")
 
 @section("content")
+<div class="books-form">
 	<h2 class="sub-header">Books
 		<small>- New Book</small>
 	</h2>
 
-	{{ Form::model($book, array('route'=>'books.save_new')) }}
+	{{ Form::model($book, array('route'=>$action_route)) }}
 	<fieldset>
-		<div class="form-group row {{ ( $errors->has('submitted') ? ($errors->has('title') ? 'has-danger' : 'has-success') : '' )  }}">
+		<div class="form-group row {{ ( $errors->has() ? ($errors->has('title') ? 'has-danger' : 'has-success') : '' )  }}">
 			<label for="book-title" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Book Title</label>
 			<div class="col-sm-10">
-				{{ Form::text("title", $book->title, ['class'=>'form-control'.( $errors->has('submitted') ? ($errors->has('title') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-title', 'type'=>'text', 'placeholder'=>'Book Title']) }}
+				{{ Form::text("title", $book->title, ['class'=>'form-control'.( $errors->has() ? ($errors->has('title') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-title', 'type'=>'text', 'placeholder'=>'Book Title']) }}
 				@if($errors->has('title'))
 					<small class="text-danger">{{ $errors->first('title')  }}</small>
 				@endif
 			</div>
 		</div>
-		<div class="form-group row {{ ( $errors->has('submitted') ? ($errors->has('author') ? 'has-danger' : 'has-success') : '' )  }}">
+		<div class="form-group row {{ ( $errors->has() ? ($errors->has('author') ? 'has-danger' : 'has-success') : '' )  }}">
 			<label for="book-author" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Author</label>
+			<div class="col-sm-10" data-ng-controller="AuthorsController">
+				{{ Form::text("author", Request::old('author'),  ['data-ng-model'=>'search_author','data-ng-focus'=>'toggleAuthorsSuggestion(false)',"data-ng-init"=>'search_author="'.(Request::old('author') ? Request::old('author') : '').'"' , 'class'=>'form-control'.( $errors->has() ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Author']) }}
+				<div class="authors-autosuggest" data-ng-authors-list="@{{ search_author }}" data-ng-model="authors"  data-ng-hide="hide_author_suggestions" >
 
-			<div class="col-sm-10">
-				{{ Form::text("author", $book->author, ['class'=>'form-control'.( $errors->has('submitted') ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Author']) }}
+				</div>
+
 				@if($errors->has('author'))
 					<small class="text-danger">{{ $errors->first('author')  }}</small>
 				@endif
 			</div>
 		</div>
-		<div class="form-group row {{ ( $errors->has('submitted') ? ($errors->has('isbn') ? 'has-danger' : 'has-success') : '' )  }}">
+		<div class="form-group row {{ ( $errors->has() ? ($errors->has('publisher') ? 'has-danger' : 'has-success') : '' )  }}">
+			<label for="book-publisher" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Publisher</label>
+
+			<div class="col-sm-10" data-ng-controller="PublishersController">
+				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-focus'=>'togglePublisherSuggestion(false)','data-ng-init'=>'search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : '').'"' , 'class'=>'form-control'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Publisher']) }}
+				<div class="publishers-autosuggest" data-ng-publishers-list="@{{ publishers }}" data-ng-model="publishers"  data-ng-hide="hide_publisher_suggestions" >
+
+				</div>
+
+				@if($errors->has('publisher'))
+					<small class="text-danger">{{ $errors->first('publisher')  }}</small>
+				@endif
+			</div>
+		</div>
+		<div class="form-group row {{ ( $errors->has() ? ($errors->has('isbn') ? 'has-danger' : 'has-success') : '' )  }}">
 			<label for="book-isbn" class="col-sm-2 form-control-label"><span class="text-danger">*</span> ISBN</label>
 
 			<div class="col-sm-10">
-				{{ Form::text("isbn", $book->isbn, ['class'=>'form-control'.( $errors->has('submitted') ? ($errors->has('isbn') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-isbn', 'type'=>'text', 'placeholder'=>'ISBN']) }}
+				{{ Form::text("isbn", $book->isbn, ['class'=>'form-control'.( $errors->has() ? ($errors->has('isbn') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-isbn', 'type'=>'text', 'placeholder'=>'ISBN']) }}
 				@if($errors->has('isbn'))
 					<small class="text-danger">{{ $errors->first('isbn')  }}</small>
 				@endif
 			</div>
 		</div>
-		<div class="form-group row {{ ( $errors->has('submitted') ? ( $errors->first('desc') ? 'has-success' : '') : '' )  }}">
+		<div class="form-group row {{ ( $errors->has() ? ( $errors->first('desc') ? 'has-success' : '') : '' )  }}">
 			{{ Form::label("book-description", "Book Description", ['class'=> 'col-sm-2 form-control-label']) }}
 			<div class="col-sm-10">
-				{{ Form::textarea("description", $book->description, ['class'=>'form-control '.( $errors->has('submitted') ? ( $errors->first('desc') ? 'form-control-success' : '') : '' ),'id'=>'book-description', 'type'=>'text', 'placeholder'=>'Book Description']) }}
+				{{ Form::textarea("description", $book->description, ['class'=>'form-control '.( $errors->has() ? ( $errors->first('desc') ? 'form-control-success' : '') : '' ),'id'=>'book-description', 'type'=>'text', 'placeholder'=>'Book Description']) }}
 			</div>
 		</div>
+		@if($action_route == 'books.update_save')
+			{{ Form::hidden('id', $book->id, []) }}
+		@endif
 		<div class="pull-xs-right pull-sm-right pull-lg-right">
 			{{ Form::submit('Save', ['name'=>'new_book_save', 'class'=>'btn btn-primary'] )  }}
 			{{ link_to_route('books.home','Cancel',[], ['class'=>'btn btn-secondary']) }}
 		</div>
 	</fieldset>
 	{{ Form::close() }}
+@stop
+@section('user_js')
+		{{ Html::script('js/react-components/authors-auto-suggest-list.react.js') }}
+		{{ Html::script('js/react-components/publishers-auto-suggest-list.react.js') }}
+		{{ Html::script('js/services/author.service.js') }}
+		{{ Html::script('js/services/publisher.service.js') }}
+		{{ Html::script('js/directives/authors-list.directive.js') }}
+		{{ Html::script('js/directives/publishers-list.directive.js') }}
+		{{ Html::script('js/controllers/authors.controller.js') }}
+		{{ Html::script('js/controllers/publishers.controller.js') }}
+</div>
 @stop

@@ -1,4 +1,6 @@
-/* line 1, ../../resources/assets/sass/app.scss */
-.card-deck { margin-bottom: 20px; }
+/* line 2, ../../resources/assets/sass/books/_books_form.partial.scss */
+.books-form .auto-suggest, .books-form .autosuggest-author-body, .books-form .autosuggest-publisher-body { position: fixed; z-index: 1; max-height: 500px; overflow-x: hidden; overflow-y: auto; min-width: 15%; font-size: 15px; border-top: 0px; box-shadow: 2px 2px 10px #C9C9C9; }
+/* line 19, ../../resources/assets/sass/books/_books_form.partial.scss */
+.books-form .close-box-suggestion { padding: 5px 10px; text-align: center; background-color: #F0F0F0; font-size: 13px; }
 
 /*# sourceMappingURL=styles.css.map */
