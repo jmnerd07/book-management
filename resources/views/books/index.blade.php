@@ -10,7 +10,7 @@
 		</div>
 	@endif
 	<div class="pull-xs-right">{{ link_to_route('books.new', "Add new book", array(), ['class'=>"btn btn-primary btn-sm"])  }}</div>
-	<div class="table-responsive" data-ng-controller="BooksController">
+	<div class="table-responsive">
 
 		@unless($books->count())
 			<p class="text-danger">No books found.</p>
@@ -20,14 +20,15 @@
 					<thead class="thead-inverse">
 					<tr>
 						<th>Title</th>
-dfsdf						<th></th>
+						<th>Author</th>
+						<th></th>
 					</tr>
 					</thead>
 					<tbody>
 					@foreach($books as $book)
 						<tr>
 							<td>{{ $book->title }}</td>
-							<td>{{ $book->author }}</td>
+							<td>{{ $book->author->author_name }}</td>
 							<td>
 								{{ link_to_route("books.edit","Edit",[ 'id'=>$book->id], ['class'=>'btn btn-primary btn-sm']) }}
 							</td>

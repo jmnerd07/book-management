@@ -35,12 +35,21 @@
 
 			<div class="col-sm-10" data-ng-controller="PublishersController">
 				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-focus'=>'togglePublisherSuggestion(false)','data-ng-init'=>'search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : '').'"' , 'class'=>'form-control'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Publisher']) }}
-				<div class="publishers-autosuggest" data-ng-publishers-list="@{{ publishers }}" data-ng-model="publishers"  data-ng-hide="hide_publisher_suggestions" >
+				<div class="publishers-autosuggest" data-ng-publishers-list="" data-ng-model="publishers"  data-ng-hide="hide_publisher_suggestions" >
 
 				</div>
 
 				@if($errors->has('publisher'))
 					<small class="text-danger">{{ $errors->first('publisher')  }}</small>
+				@endif
+			</div>
+		</div>
+		<div class="form-group row {{ ( $errors->has() ? ($errors->has('date_published') ? 'has-danger' : 'has-success') : '' )  }}">
+			<label for="book-date-published" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Date Published</label>
+			<div class="col-sm-10">
+				{{ Form::date("date_published", $book->date_published, ['class'=>'form-control'.( $errors->has() ? ($errors->has('date_published') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-date-published', 'type'=>'text', 'placeholder'=>'Date Published']) }}
+				@if($errors->has('date_published'))
+					<small class="text-danger">{{ $errors->first('date_published')  }}</small>
 				@endif
 			</div>
 		</div>

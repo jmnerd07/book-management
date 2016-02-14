@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Books;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
@@ -16,7 +18,7 @@ class BooksController extends Controller
 	 */
 	public function index()
 	{
-		$books = Books::orderBy('title', 'ASC')->get();
+		$books = Books::where('record_id',NULL)->orderBy('title', 'ASC')->get();
 
 		return view('books.index', compact('books'));
 	}
@@ -63,12 +65,53 @@ class BooksController extends Controller
 			$result->errors()->add('desc', (Input::get('description') !== "" ? TRUE : FALSE) );
 			return redirect()->route('books.new')->withErrors($result->errors())->withInput();
 		}
+		$author_id = $request->get('author_id');
+		if(intval($author_id) == -1)
+		{
+			$new_author = new Author();
+			$new_author->author_name = $request->get('author');
+			$new_author->save();
+			$author_id = $new_author->id;
+			// Create copy of newly created author
+			$new_author = new Author();
+			$new_author->author_name = $request->get('author');
+			$new_author->record_id = $author_id;
+			$new_author->save();
+		}
 
+		$publisher_id = $request->get('publisher_id');
+
+		if(intval($publisher_id) == -1)
+		{
+			$new_publisher = new Publisher();
+			$new_publisher->name = $request->get('publisher');
+			$new_publisher->save();
+			$publisher_id = $new_publisher->id;
+			// Create copy of newly created publisher
+			$new_publisher = new Publisher();
+			$new_publisher->name = $request->get('publisher');
+			$new_publisher->record_id = $publisher_id;
+			$new_publisher->save();
+		}
 		$book = new Books();
 		$book->title = $request->get("title");
-		$book->author = $request->get("author");
+		$book->author_id = $author_id;
+		$book->publisher_id = $publisher_id;
 		$book->isbn = $request->get("isbn");
 		$book->description = $request->get('desciprition');
+		$book->date_published = $request->get('date_published');
+		$book->save();
+		$book_id = $book->id;
+
+		// Create copy of newly created book
+		$book = new Books();
+		$book->title = $request->get("title");
+		$book->author_id = $author_id;
+		$book->publisher_id = $publisher_id;
+		$book->isbn = $request->get("isbn");
+		$book->description = $request->get('desciprition');
+		$book->date_published = $request->get('date_published');
+		$book->record_id = $book_id;
 		$book->save();
 		return redirect()->route('books.home')->with('status', "New book created");
 	}
