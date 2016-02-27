@@ -20,8 +20,9 @@
 		<div class="form-group row {{ ( $errors->has() ? ($errors->has('author') ? 'has-danger' : 'has-success') : '' )  }}">
 			<label for="book-author" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Author</label>
 			<div class="col-sm-10" data-ng-controller="AuthorsController">
-				{{ Form::text("author", Request::old('author'),  ['data-ng-model'=>'search_author','data-ng-focus'=>'toggleAuthorsSuggestion(false)',"data-ng-init"=>'search_author="'.(Request::old('author') ? Request::old('author') : '').'"' , 'class'=>'form-control'.( $errors->has() ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Author']) }}
-				<div class="authors-autosuggest" data-ng-authors-list="@{{ search_author }}" data-ng-model="authors"  data-ng-hide="hide_author_suggestions" >
+				{{ Form::text("author", Request::old('author'),  ['data-ng-model'=>'search_author','data-ng-value'=>'search_author','data-ng-focus'=>'hide_author_suggestions = false',"data-ng-init"=>'hide_author_suggestions = true;search_author="'.(Request::old('author') ? Request::old('author') : '').'"' , 'class'=>'form-control author-name-search'.( $errors->has() ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Search authors']) }}
+				{{ Form::hidden("author_id", Request::old('author_id'), [ 'data-ng-model'=>'authorId', 'data-ng-value'=>'authorId', 'data-ng-init'=>'authorId="'.(Request::old('author_id') ? Request::old('author_id') : '') .'"']) }}
+				<div class="authors-autosuggest" data-ng-authors-list="authors" data-selected-author-id="authorId" data-ng-author-keyword="search_author"  data-ng-hide="hide_author_suggestions" >
 
 				</div>
 

@@ -8,12 +8,14 @@
 		.module('BookManagementApp')
 		.controller('AuthorsController', function($scope, $http){
 			$scope.authors = [];
-			$scope.hide_author_suggestions = true;
-			$scope.toggleAuthorsSuggestion = function(val) {
-				$scope.hide_author_suggestions = val;
+			$scope.reloadAuthors = function() {
+				$http.get('/management/author/async/all').success(function (data) {
+					$scope.authors = data;
+				})
 			};
-			$http.get('/management/author/async/all').success(function(data) {
-				$scope.authors = data;
+			$scope.reloadAuthors();
+			$scope.$on('reloadAuthor', function() {
+				$scope.reloadAuthors();
 			})
 		});
 })();

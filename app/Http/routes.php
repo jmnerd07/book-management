@@ -49,8 +49,13 @@ Route::group(['prefix'=>'management'], function() {
 	Route::group(['prefix'=>'author'], function(){
 		Route::group(['prefix'=>'/async'], function() {
 			Route::get('/all',['as'=>'author.async.all', function(){
-				return \App\Models\Author::where('record_id', NULL)->get();
+				return \App\Models\Author::where('record_id', NULL)->orderBy('author_name')->get();
 			}]);
+			Route::post('/new-author', [
+				'as'=>'author.async.newAuthor',
+				"middleware"=> "web",
+				'uses'=>'AuthorsController@store'
+			]);
 		});
 	});
 	Route::group(['prefix'=>'publisher'], function(){
