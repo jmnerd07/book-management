@@ -63,6 +63,11 @@ Route::group(['prefix'=>'management'], function() {
 			Route::get('/all',['as'=>'publisher.async.all', function(){
 				return \App\Models\Publisher::where('record_id', NULL)->get();
 			}]);
+			Route::post('/new-publisher', [
+				'as'=>'publisher.async.newPublisher',
+				"middleware"=> "web",
+				'uses'=>'PublishersController@store'
+			]);
 		});
 	});
 });

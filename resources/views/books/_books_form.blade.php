@@ -35,8 +35,9 @@
 			<label for="book-publisher" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Publisher</label>
 
 			<div class="col-sm-10" data-ng-controller="PublishersController">
-				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-focus'=>'togglePublisherSuggestion(false)','data-ng-init'=>'search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : '').'"' , 'class'=>'form-control'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Publisher']) }}
-				<div class="publishers-autosuggest" data-ng-publishers-list="" data-ng-model="publishers"  data-ng-hide="hide_publisher_suggestions" >
+				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-value'=>'search_publisher','data-ng-focus'=>'hide_publisher_suggestions = false',"data-ng-init"=>'hide_publisher_suggestions = true;search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : '').'"' , 'class'=>'form-control publisher-name-search'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Search publishers']) }}
+				{{ Form::hidden("publisher_id", Request::old('publisher_id'), [ 'data-ng-model'=>'publisherId', 'data-ng-value'=>'publisherId', 'data-ng-init'=>'publisherId="'.(Request::old('publisher_id') ? Request::old('publisher_id') : '') .'"']) }}
+				<div class="publishers-autosuggest" data-ng-publishers-list="publishers" data-selected-publisher-id="publisherId" data-ng-publisher-keyword="search_publisher"  data-ng-hide="hide_publisher_suggestions" >
 
 				</div>
 
