@@ -98,7 +98,7 @@ class BooksController extends Controller
 		$book->author_id = $author_id;
 		$book->publisher_id = $publisher_id;
 		$book->isbn = $request->get("isbn");
-		$book->description = $request->get('desciprition');
+		$book->description = $request->get('description');
 		$book->date_published = $request->get('date_published');
 		$book->save();
 		$book_id = $book->id;
@@ -109,7 +109,7 @@ class BooksController extends Controller
 		$book->author_id = $author_id;
 		$book->publisher_id = $publisher_id;
 		$book->isbn = $request->get("isbn");
-		$book->description = $request->get('desciprition');
+		$book->description = $request->get('description');
 		$book->date_published = $request->get('date_published');
 		$book->record_id = $book_id;
 		$book->save();
@@ -150,26 +150,45 @@ class BooksController extends Controller
 	{
 		$id = $request->get('id');
 		$book = Books::find($id);
-		$this->validate($request
-				,[
-				'title' => 'required',
-				'author' => 'required',
-				'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/"
-				]
-				,[
-						'title.required'=>'Book title is required',
-						'author.required' => 'Book author is required',
-						'isbn.required' => 'ISBN is required',
-						'isbn.max' => 'ISBN must be exactly 13 characters',
-						'isbn.min' => 'ISBN must be exactly 13 characters',
-						'isbn.regex'=>'ISBN must contain numbers only.'
-				]
+		$result = Validator::make(Input::all(), [
+			'title' => 'required',
+			'author' => 'required',
+			'publisher'=>'required',
+			'isbn' => "required|max:13|min:13|regex:/^[1-9][0-9]{12}$/"
+		],
+			[
+				'title.required'=>'Book title is required',
+				'author.required' => 'Book author is required',
+				'isbn.required' => 'ISBN is required',
+				'isbn.max' => 'ISBN must be exactly 13 characters',
+				'isbn.min' => 'ISBN must be exactly 13 characters',
+				'isbn.regex'=>'ISBN must contain numbers only.',
+				'publisher.required'=>'Publisher is required'
+			]
 		);
+		if($result->fails())
+		{
+			$result->errors()->add('submitted', 1);
+			$result->errors()->add('desc', (Input::get('description') !== "" ? TRUE : FALSE) );
+			return redirect()->route('books.new')->withErrors($result->errors())->withInput();
+		}
 		$book->title = $request->get("title");
-		$book->author = $request->get("author");
+		$book->author_id = $request->get("author_id");
 		$book->isbn = $request->get("isbn");
-		$book->description = $request->get('desciprition');
-		$book->save();
+		$book->description = $request->get('description');
+		$book->date_published = $request->get('date_published');
+		$affected = $book->save();
+		if($affected > 0) {
+			$book = new Books();
+			$book->title = $request->get("title");
+			$book->author_id = $request->get('author_id');
+			$book->publisher_id = $request->get('publisher_id');
+			$book->isbn = $request->get("isbn");
+			$book->description = $request->get('description');
+			$book->date_published = $request->get('date_published');
+			$book->record_id = $id;
+			$book->save();
+		}
 		return redirect()->route('books.home')->with('status', "Update successful")->withInput();
 	}
 

@@ -17,6 +17,6 @@ class Books extends Model
     }
     public function publisher()
     {
-        return $this->hasOne('App\Models\Publisher', 'publisher_id', 'id');
+        return $this->hasOne('App\Models\Publisher', 'id', 'publisher_id');
     }
 }

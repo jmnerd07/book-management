@@ -20,8 +20,8 @@
 		<div class="form-group row {{ ( $errors->has() ? ($errors->has('author') ? 'has-danger' : 'has-success') : '' )  }}">
 			<label for="book-author" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Author</label>
 			<div class="col-sm-10" data-ng-controller="AuthorsController">
-				{{ Form::text("author", Request::old('author'),  ['data-ng-model'=>'search_author','data-ng-value'=>'search_author','data-ng-focus'=>'hide_author_suggestions = false',"data-ng-init"=>'hide_author_suggestions = true;search_author="'.(Request::old('author') ? Request::old('author') : '').'"' , 'class'=>'form-control author-name-search'.( $errors->has() ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Search authors']) }}
-				{{ Form::hidden("author_id", Request::old('author_id'), [ 'data-ng-model'=>'authorId', 'data-ng-value'=>'authorId', 'data-ng-init'=>'authorId="'.(Request::old('author_id') ? Request::old('author_id') : '') .'"']) }}
+				{{ Form::text("author", Request::old('author'),  ['data-ng-model'=>'search_author','data-ng-value'=>'search_author','data-ng-focus'=>'hide_author_suggestions = false',"data-ng-init"=>'hide_author_suggestions = true;search_author="'.(Request::old('author') ? Request::old('author') : ($book->author ? $book->author->author_name: '')).'"' , 'class'=>'form-control author-name-search'.( $errors->has() ? ($errors->has('author') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-author', 'type'=>'text', 'placeholder'=>'Search authors']) }}
+				{{ Form::hidden("author_id", Request::old('author_id'), [ 'data-ng-model'=>'authorId', 'data-ng-value'=>'authorId', 'data-ng-init'=>'authorId="'.(Request::old('author_id') ? Request::old('author_id') : ($book->author_id)) .'"']) }}
 				<div class="authors-autosuggest" data-ng-authors-list="authors" data-selected-author-id="authorId" data-ng-author-keyword="search_author"  data-ng-hide="hide_author_suggestions" >
 
 				</div>
@@ -35,8 +35,8 @@
 			<label for="book-publisher" class="col-sm-2 form-control-label"><span class="text-danger">*</span> Publisher</label>
 
 			<div class="col-sm-10" data-ng-controller="PublishersController">
-				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-value'=>'search_publisher','data-ng-focus'=>'hide_publisher_suggestions = false',"data-ng-init"=>'hide_publisher_suggestions = true;search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : '').'"' , 'class'=>'form-control publisher-name-search'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Search publishers']) }}
-				{{ Form::hidden("publisher_id", Request::old('publisher_id'), [ 'data-ng-model'=>'publisherId', 'data-ng-value'=>'publisherId', 'data-ng-init'=>'publisherId="'.(Request::old('publisher_id') ? Request::old('publisher_id') : '') .'"']) }}
+				{{ Form::text("publisher", Request::old('publisher'),  ['data-ng-model'=>'search_publisher','data-ng-value'=>'search_publisher','data-ng-focus'=>'hide_publisher_suggestions = false',"data-ng-init"=>'hide_publisher_suggestions = true;search_publisher="'.(Request::old('publisher') ? Request::old('publisher') : ($book->publisher ? $book->publisher->name: '' )).'"' , 'class'=>'form-control publisher-name-search'.( $errors->has() ? ($errors->has('publisher') ? ' form-control-danger' : ' form-control-success') : '' ),'id'=>'book-publisher', 'type'=>'text', 'placeholder'=>'Search publishers']) }}
+				{{ Form::hidden("publisher_id", Request::old('publisher_id'), [ 'data-ng-model'=>'publisherId', 'data-ng-value'=>'publisherId', 'data-ng-init'=>'publisherId="'.(Request::old('publisher_id') ? Request::old('publisher_id') : $book->publisher_id) .'"']) }}
 				<div class="publishers-autosuggest" data-ng-publishers-list="publishers" data-selected-publisher-id="publisherId" data-ng-publisher-keyword="search_publisher"  data-ng-hide="hide_publisher_suggestions" >
 
 				</div>
