@@ -42,8 +42,36 @@ Route::group(['prefix'=>'management'], function() {
 	Route::group(['prefix'=>'genres'], function() {
 		Route::get('/', [
 			"as"=>"genres.home",
-			"uses"=> "GenresController@index"
+			"uses"=> "GenresController@index",
+			"middleware"=>"web"
 		]);
+		Route::get('/new', [ 
+			"as"	=> "genres.new",
+			"middleware"=>"web",
+			"uses"=>"GenresController@create"
+		]);
+		Route::get('/modify/{id?}', [ 
+			"as"	=> "genres.edit",
+			"middleware"=>"web",
+			"uses"=>"GenresController@edit"
+		]);
+		Route::group(['prefix'=>'/async'], function(){ 
+			Route::post('/new-genre', [
+				'as'=>'genres.async.newGenre',
+				'middleware'=>'web',
+				'uses'=>'GenresController@store'
+			]);
+			Route::post('/edit-genre', [
+				'as'=>'genres.async.editGenre',
+				'middleware'=>'web',
+				'uses'=>'GenresController@edit'
+			]);
+			Route::post('/list', [
+					'as'=>'genres.async.list',
+					'middleware'=>'web',
+					'uses'=>'GenresController@index'
+				]);
+		});
 	});
 
 	Route::group(['prefix'=>'author'], function(){

@@ -1,3 +1,4 @@
+<?php phpinfo(); ?>
 @extends("master_catalog")
 
 @section("content")

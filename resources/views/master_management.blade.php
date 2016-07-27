@@ -46,6 +46,26 @@
 {{ Html::script('vendor/react-0.14.6/build/react-dom.js') }}
 {{ Html::script('vendor/angularjs/angular.js') }}
 {{ Html::script('js/app.js') }}
+{{ Html::script('js/factories/modal-box.factory.js') }}
 @yield('user_js');
+<div class="modal fade" id="modal-box"> 
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+					<span aria-hidden="true">&times;</span> 
+				</button> 
+				<h4 class="modal-title">Modal title</h4> 
+			</div> 
+			<div class="modal-body"> 
+				<p>One fine body&hellip;</p> 
+			</div> 
+			<div class="modal-footer"> 
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+				<button type="button" class="btn btn-primary">Ok</button> 
+			</div> 
+		</div><!-- /.modal-content --> 
+	</div><!-- /.modal-dialog --> 
+</div><!-- /.modal -->
 </body>
 </html>

@@ -7,9 +7,9 @@ class Books extends Model
 {
     //
     protected $table = "books";
-    public function booksCategories()
+    public function booksGenres()
     {
-        return $this->hasMany('App\Models\BookCategories', 'book_id', 'id');
+        return $this->hasMany('App\Models\BooksGenres', 'book_id', 'id');
     }
     public function author()
     {
