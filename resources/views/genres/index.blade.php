@@ -18,20 +18,28 @@
 			@unless($genres->count())
 				<p class="text-danger">No genres found.</p>
 			@else
+					
 				<div class="table-responsive">
 					<table class="table table-hover">
 						<thead class="thead-inverse">
 						<tr>
 							<th>Genre</th>
-							<th>Description</th>
 							<th></th>
 						</tr>
 						</thead>
 						<tbody>
 						@foreach($genres as $genre)
 							<tr>
-								<td>{{ $genre->name }}</td>
-								<td>{{ $genre->description }}</td>
+								<td data-genre-id="{{ $genre->id }}" data-ng-click="hideSubGenres{{ $genre->id }} = !hideSubGenres{{ $genre->id }}" data-ng-init="hideSubGenres{{ $genre->id }} = true;" data-ng-model="hideSubGenres{{ $genre->id }}">		
+									@if($genre->subGenres->count() > 0)
+										<span><b data-ng-bind="hideSubGenres{{ $genre->id }} ? '&#43;' : '&#8722;' "></b>&nbsp;</span>
+									@endif
+									{{ $genre->name }}
+									@if($genre->subGenres->count() > 0)
+										<span class="label label-default" data-placement="bottom" data-toggle="tooltip" title="Number of sub-genres">{{ number_format($genre->subGenres->count()) }}</span>
+									@endif
+									</label>
+								</td>
 								<td>
 									<div class="btn-group">
 										<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,6 +52,26 @@
 									</div>
 								</td>
 							</tr>
+							@if($genre->subGenres)
+								@foreach($genre->subGenres->all() as $subGenre)
+								<tr data-parent-genre-id="{{ $subGenre->parent_genre_id }}" data-ng-hide="hideSubGenres{{ $genre->id }}">
+									<td>
+										<div style="padding-left: 3em;">{{ $subGenre->name }}</div>
+									</td>
+									<td>
+										<div class="btn-group">
+											<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											</button>
+											<div class="dropdown-menu">
+												<a href="#" data-genre-id="{{$subGenre->id}}" data-toggle="modal" data-target="#modal-box" class="dropdown-item ng-button-edit-genre">Edit</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="#">Remove</a>
+											</div>
+										</div>
+									</td>
+								</tr>
+								@endforeach
+							@endif
 						@endforeach
 						</tbody>
 						<tfoot>

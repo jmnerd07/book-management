@@ -17,7 +17,7 @@ class GenresController extends Controller
     public function index(Request $request)
     {
 
-        $genres = Genres::where('record_id', NULL)->orderBy('name', 'ASC')->get();
+        $genres = Genres::where('record_id', NULL)->where('parent_genre_id', NULL)->orderBy('parent_genre_id','ASC')->orderBy('name', 'ASC')->get();
 
         if($request->ajax())
         {
