@@ -13,6 +13,6 @@ class BooksGenres  extends Model
 	}
 	public function books()
 	{
-		return $this->hasOne('App\Models\Books','id','book_id');
+		return $this->hasMany('App\Models\Books','id','book_id');
 	}
 }

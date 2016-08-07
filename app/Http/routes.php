@@ -66,6 +66,11 @@ Route::group(['prefix'=>'management'], function() {
 				'middleware'=>'web',
 				'uses'=>'GenresController@edit'
 			]);
+			Route::post('/modify-genre', [
+				'as'=>'genre.async.modifyGenre',
+				'middleware'=>'web',
+				'uses'=>'GenresController@update'
+			]);
 			Route::post('/list', [
 					'as'=>'genres.async.list',
 					'middleware'=>'web',

@@ -17,7 +17,7 @@ class GenresController extends Controller
     public function index(Request $request)
     {
 
-        $genres = Genres::where('record_id', NULL)->where('parent_genre_id', NULL)->orderBy('parent_genre_id','ASC')->orderBy('name', 'ASC')->get();
+        $genres = Genres::whereNull('record_id')->where('parent_genre_id', NULL)->orderBy('parent_genre_id','ASC')->orderBy('name', 'ASC')->get();
 
         if($request->ajax())
         {
@@ -25,9 +25,9 @@ class GenresController extends Controller
             {
                 return response()->json(['error'=>TRUE, 'message'=>'Invalid request','data'=>array(),'rows'=>0]);
             }
-            if($request->input('_requestType') == 'LIST')
+            if($request->input('_requestType') == 'LIST_PARENT')
             {
-                $genres = Genres::where('record_id', NULL)->where('parent_genre_id',NULL)->orderBy('name', 'ASC')->get();
+                $genres = Genres::where('parent_genre_id', NULL)->whereNull('record_id')->orderBy('name', 'ASC')->get();
                 return response()->json(['error'=>FALSE, 'message'=>'Request success', 'data'=>$genres, 'rows'=>$genres->count()]);
             }
         }
@@ -102,22 +102,22 @@ class GenresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(Request $request)
     {
         if($request->ajax()) 
         {
             $this->validate($request
             , [
-                'id'=>'required',
-                'name'=>'required|min:4'
+                'id'=>'required|numeric'
             ]
             , [
                 'id.required'=>'Genre id is required.',
                 'id.numeric'=>'Genre id must be numeric'
             ]);
-            $genreId = $request->input('genre_id');
+            $genreId = $request->input('id');
+            $genre = Genres::find($genreId);
             
-            return response()->json(['gid'=>$genreId]);
+            return $genre->toJson();
         }
     }
 
@@ -128,9 +128,62 @@ class GenresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request,
+                array(
+                        'id'=>'required|numeric',
+                        'name'=>'required|min:4'
+                    ),
+                array(
+                        'id.required'=>'Genre id is required',
+                        'id.numeric'=>'Genre id is invalid (must be numeric).',
+                        'name.required'=>'Genre name is required',
+                        'name.min'=>'Genre name must be minimum of 4 characters'
+                    )
+            );
+        
+        if($request->ajax())
+        {
+            return response()->json(['isError'=>FALSE, 'message'=>'', 'data'=>[ 'affectedRows'=>$this->saveModifyGenreDetails($request) ]]);
+
+        }
+    }
+
+    /**
+     * Save changes in details of an existing genre
+     * @param  \Illuminate\Http\Request $request
+     * @return array         
+     */
+    protected function saveModifyGenreDetails(Request $request)
+    {
+        // Save master record
+        $genreId = $request->input('id');
+        $genreName = $request->input('name');
+        $genreDescription = $request->input('description');
+        $genreParentGenreId = $request->input('parent_genre_id');
+
+        $genre = Genres::find($genreId);
+        $genre->name = $genreName;
+        $genre->description = $genreDescription;
+        $genre->parent_genre_id = $genreParentGenreId;
+        $affectedRows = $genre->save();
+        /*$affectedRows = Genres::where('id',$genreId)->update([
+                'name'=>$genreName,
+                'description'=>$genreDescription,
+                'parent_genre_id'=>$genreParentGenreId
+            ]);*/
+        if($affectedRows > 0)
+        {
+            // Create copy record
+            $copyRecord = new Genres();
+            $copyRecord->name = $genreName;
+            $copyRecord->description = $genreDescription;
+            $copyRecord->record_id = $genreId;  
+            $copyRecord->parent_genre_id = $genreParentGenreId; 
+            $copyRecord->save();
+        }
+        return $affectedRows;
     }
 
     /**

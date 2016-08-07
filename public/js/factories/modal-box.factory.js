@@ -18,6 +18,7 @@
 					_modal.find('.modal-header .modal-title').html(_defaultOpts.title);
 					_modal.find('.modal-body').html(_defaultOpts.body);
 					_modal.find('.modal-footer').html(_defaultOpts.footer);
+					return _modal;
 				}
 			};
 		})

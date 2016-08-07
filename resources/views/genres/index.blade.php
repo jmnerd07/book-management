@@ -85,6 +85,7 @@
 		</div>
 	</div>
 	@section('user_js')
+		{{ Html::script('js/filters/variable-values.filter.js') }}
 		{{ Html::script('js/controllers/genres.controller.js') }}
 		{{ Html::script('js/directives/genres-dom.directive.js') }}
 	@endsection
